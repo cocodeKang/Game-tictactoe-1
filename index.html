@@ -20,6 +20,11 @@
       font-size: 24px;
       font-weight: bold;
     }
+    /* 점수판 */
+    #scoreboard {
+      margin-top: 10px;
+      font-size: 18px;
+    }
     /* 보드 영역 */
     .board {
       display: grid;
@@ -73,9 +78,9 @@
       object-fit: cover;
       border-radius: 10px;
     }
-    /* 리셋 버튼 스타일 */
-    button#reset {
-      margin-top: 30px;
+    /* 버튼 스타일 */
+    button {
+      margin-top: 20px;
       padding: 10px 20px;
       font-size: 16px;
       border: none;
@@ -84,33 +89,37 @@
       color: white;
       cursor: pointer;
     }
-    button#reset:hover {
+    button:hover {
       background-color: #254b8b;
+    }
+    /* 두 버튼이 나란히 배치되도록 */
+    .buttons {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
     }
   </style>
 </head>
 <body>
   <h1>틱택토 게임</h1>
   <div id="status">현재 플레이어: X</div>
+  <div id="scoreboard">X 승: 0회, O 승: 0회, 무승부: 0회</div>
   <div class="board">
-    <!-- 9칸의 셀 생성 -->
-    <!-- 각 셀은 data-index 속성으로 인덱스를 부여 -->
+    <!-- 9칸의 셀 생성 (인덱스 0~8) -->
     <!-- 셀 구조: .cell > .flip-card > .flip-card-inner > (.flip-card-front, .flip-card-back) -->
     <div class="cell" data-index="0">
       <div class="flip-card">
         <div class="flip-card-inner">
           <div class="flip-card-front">
-            <!-- 플레이어가 선택한 경우 (X 또는 O) -->
             <img src="" alt="플레이어 마크">
           </div>
           <div class="flip-card-back">
-            <!-- 아직 선택되지 않은 카드의 뒷면 이미지 -->
-            <img src="YOUR_BACK_IMAGE_URL" alt="카드 뒷면">
+            <img src="https://cdn-icons-png.flaticon.com/128/956/956929.png" alt="카드 뒷면">
           </div>
         </div>
       </div>
     </div>
-    <!-- 인덱스 1 ~ 8 셀 반복 -->
     <div class="cell" data-index="1">
       <div class="flip-card">
         <div class="flip-card-inner">
@@ -118,7 +127,7 @@
             <img src="" alt="플레이어 마크">
           </div>
           <div class="flip-card-back">
-            <img src="YOUR_BACK_IMAGE_URL" alt="카드 뒷면">
+            <img src="https://cdn-icons-png.flaticon.com/128/956/956929.png" alt="카드 뒷면">
           </div>
         </div>
       </div>
@@ -130,7 +139,7 @@
             <img src="" alt="플레이어 마크">
           </div>
           <div class="flip-card-back">
-            <img src="YOUR_BACK_IMAGE_URL" alt="카드 뒷면">
+            <img src="https://cdn-icons-png.flaticon.com/128/956/956929.png" alt="카드 뒷면">
           </div>
         </div>
       </div>
@@ -142,7 +151,7 @@
             <img src="" alt="플레이어 마크">
           </div>
           <div class="flip-card-back">
-            <img src="YOUR_BACK_IMAGE_URL" alt="카드 뒷면">
+            <img src="https://cdn-icons-png.flaticon.com/128/956/956929.png" alt="카드 뒷면">
           </div>
         </div>
       </div>
@@ -154,7 +163,7 @@
             <img src="" alt="플레이어 마크">
           </div>
           <div class="flip-card-back">
-            <img src="YOUR_BACK_IMAGE_URL" alt="카드 뒷면">
+            <img src="https://cdn-icons-png.flaticon.com/128/956/956929.png" alt="카드 뒷면">
           </div>
         </div>
       </div>
@@ -166,7 +175,7 @@
             <img src="" alt="플레이어 마크">
           </div>
           <div class="flip-card-back">
-            <img src="YOUR_BACK_IMAGE_URL" alt="카드 뒷면">
+            <img src="https://cdn-icons-png.flaticon.com/128/956/956929.png" alt="카드 뒷면">
           </div>
         </div>
       </div>
@@ -178,7 +187,7 @@
             <img src="" alt="플레이어 마크">
           </div>
           <div class="flip-card-back">
-            <img src="YOUR_BACK_IMAGE_URL" alt="카드 뒷면">
+            <img src="https://cdn-icons-png.flaticon.com/128/956/956929.png" alt="카드 뒷면">
           </div>
         </div>
       </div>
@@ -190,7 +199,7 @@
             <img src="" alt="플레이어 마크">
           </div>
           <div class="flip-card-back">
-            <img src="YOUR_BACK_IMAGE_URL" alt="카드 뒷면">
+            <img src="https://cdn-icons-png.flaticon.com/128/956/956929.png" alt="카드 뒷면">
           </div>
         </div>
       </div>
@@ -202,27 +211,44 @@
             <img src="" alt="플레이어 마크">
           </div>
           <div class="flip-card-back">
-            <img src="YOUR_BACK_IMAGE_URL" alt="카드 뒷면">
+            <img src="https://cdn-icons-png.flaticon.com/128/956/956929.png" alt="카드 뒷면">
           </div>
         </div>
       </div>
     </div>
   </div>
-  <button id="reset">게임 재시작</button>
+  
+  <!-- 두 개의 버튼: 게임 재시작(보드 리셋, 먼저하는 플레이어 교체) / 점수 초기화 -->
+  <div class="buttons">
+    <button id="reset">게임 재시작</button>
+    <button id="scoreReset">점수 초기화</button>
+  </div>
 
   <script>
     // 게임 관련 변수들
     const statusDisplay = document.getElementById('status');
+    const scoreboardDisplay = document.getElementById('scoreboard');
     const resetButton = document.getElementById('reset');
-    let currentPlayer = 'X';
+    const scoreResetButton = document.getElementById('scoreReset');
+
+    // 현재 게임 진행 상태
     let gameActive = true;
-    // 9칸의 상태를 나타내는 배열 (빈 문자열: 미선택)
+    // 보드의 9칸 상태 (빈 문자열: 미선택)
     let gameState = ["", "", "", "", "", "", "", "", ""];
 
+    // 누가 먼저 시작할지 관리 (매 게임마다 번갈아 시작)
+    let firstPlayer = 'X';
+    let currentPlayer = firstPlayer;
+
+    // 승리 횟수 및 무승부 횟수
+    let xWins = 0;
+    let oWins = 0;
+    let draws = 0;
+
     // 이미지 URL placeholders (추후 사용하실 링크로 변경)
-    const backImageURL = "YOUR_BACK_IMAGE_URL"; // 카드 뒷면 이미지
-    const xImageURL = "YOUR_X_IMAGE_URL";       // X 플레이어 이미지
-    const oImageURL = "YOUR_O_IMAGE_URL";       // O 플레이어 이미지
+    const backImageURL = "https://cdn-icons-png.flaticon.com/128/956/956929.png"; // 카드 뒷면 이미지
+    const xImageURL = "https://cdn-icons-mp4.flaticon.com/512/10971/10971010.mp4";       // X 플레이어 이미지
+    const oImageURL = "https://cdn-icons-mp4.flaticon.com/512/10970/10970986.mp4";       // O 플레이어 이미지
 
     // 승리 조건 배열
     const winningConditions = [
@@ -235,6 +261,11 @@
       [0,4,8],
       [2,4,6]
     ];
+
+    // 점수판 업데이트 함수
+    function updateScoreboard() {
+      scoreboardDisplay.textContent = `X 승: ${xWins}회, O 승: ${oWins}회, 무승부: ${draws}회`;
+    }
 
     // 셀 클릭 이벤트 처리 함수
     function handleCellClick(e) {
@@ -264,13 +295,22 @@
       if (checkWin()) {
         statusDisplay.textContent = `플레이어 ${currentPlayer} 승리!`;
         gameActive = false;
+        // 승리한 플레이어에 따라 점수 업데이트
+        if (currentPlayer === 'X') {
+          xWins++;
+        } else {
+          oWins++;
+        }
+        updateScoreboard();
         return;
       }
 
-      // 모든 칸이 채워졌다면 무승부
+      // 모든 칸이 채워졌다면 무승부 처리
       if (gameState.every(cell => cell !== "")) {
         statusDisplay.textContent = "무승부!";
         gameActive = false;
+        draws++;
+        updateScoreboard();
         return;
       }
 
@@ -290,12 +330,18 @@
       return false;
     }
 
-    // 게임 초기화 함수
+    // 게임 보드 리셋 함수 (게임이 끝난 후 "게임 재시작" 버튼 클릭 시)
     function resetGame() {
-      currentPlayer = 'X';
+      // 게임 재시작 시 현재 저장된 firstPlayer를 시작 플레이어로 지정
+      currentPlayer = firstPlayer;
+      // 다음 게임에서는 먼저하는 플레이어를 반대로 변경
+      firstPlayer = (firstPlayer === 'X') ? 'O' : 'X';
+
       gameActive = true;
       gameState = ["", "", "", "", "", "", "", "", ""];
       statusDisplay.textContent = `현재 플레이어: ${currentPlayer}`;
+
+      // 모든 셀의 플립 효과와 이미지 초기화
       document.querySelectorAll('.cell').forEach(cell => {
         cell.classList.remove('flipped');
         const frontImg = cell.querySelector('.flip-card-front img');
@@ -304,13 +350,24 @@
       });
     }
 
+    // 점수판 초기화 함수 (점수 초기화 버튼 클릭 시)
+    function resetScoreboard() {
+      xWins = 0;
+      oWins = 0;
+      draws = 0;
+      updateScoreboard();
+    }
+
     // 각 셀에 클릭 이벤트 리스너 등록
     document.querySelectorAll('.cell').forEach(cell => {
       cell.addEventListener('click', handleCellClick);
     });
 
-    // 리셋 버튼에 클릭 이벤트 리스너 등록
+    // 게임 재시작 버튼에 클릭 이벤트 리스너 등록
     resetButton.addEventListener('click', resetGame);
+
+    // 점수 초기화 버튼에 클릭 이벤트 리스너 등록
+    scoreResetButton.addEventListener('click', resetScoreboard);
   </script>
 </body>
 </html>
