@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>틱택토 게임</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      margin-top: 20px;
+    }
+    /* 게임 상태 메시지 */
+    #status {
+      margin-top: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    /* 보드 영역 */
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 120px);
+      grid-gap: 10px;
+      justify-content: center;
+      margin-top: 40px;
+    }
+    /* 각 셀(카드)의 스타일 */
+    .cell {
+      width: 120px;
+      height: 120px;
+      perspective: 1000px; /* 3D 효과를 위한 원근감 */
+      cursor: pointer;
+    }
+    /* 플립 카드 컨테이너 */
+    .flip-card {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    /* 플립 카드 내부 (회전 애니메이션 적용) */
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+    /* 셀이 클릭되어 뒤집혔을 때 */
+    .cell.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    /* 앞면과 뒷면 공통 스타일 */
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 10px;
+    }
+    /* 앞면은 180도 회전 (뒤집혔을 때 보이도록) */
+    .flip-card-front {
+      transform: rotateY(180deg);
+    }
+    /* 이미지가 칸 전체를 채우도록 */
+    .flip-card-front img,
+    .flip-card-back img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    /* 리셋 버튼 스타일 */
+    button#reset {
+      margin-top: 30px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #3366cc;
+      color: white;
+      cursor: pointer;
+    }
+    button#reset:hover {
+      background-color: #254b8b;
+    }
+  </style>
+</head>
+<body>
+  <h1>틱택토 게임</h1>
+  <div id="status">현재 플레이어: X</div>
+  <div class="board">
+    <!-- 9칸의 셀 생성 -->
+    <!-- 각 셀은 data-index 속성으로 인덱스를 부여 -->
+    <!-- 셀 구조: .cell > .flip-card > .flip-card-inner > (.flip-card-front, .flip-card-back) -->
+    <div class="cell" data-index="0">
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <!-- 플레이어가 선택한 경우 (X 또는 O) -->
+            <img src="" alt="플레이어 마크">
+          </div>
+          <div class="flip-card-back">
+            <!-- 아직 선택되지 않은 카드의 뒷면 이미지 -->
+            <img src="YOUR_BACK_IMAGE_URL" alt="카드 뒷면">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 인덱스 1 ~ 8 셀 반복 -->
+    <div class="cell" data-index="1">
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="" alt="플레이어 마크">
+          </div>
+          <div class="flip-card-back">
+            <img src="YOUR_BACK_IMAGE_URL" alt="카드 뒷면">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cell" data-index="2">
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="" alt="플레이어 마크">
+          </div>
+          <div class="flip-card-back">
+            <img src="YOUR_BACK_IMAGE_URL" alt="카드 뒷면">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cell" data-index="3">
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="" alt="플레이어 마크">
+          </div>
+          <div class="flip-card-back">
+            <img src="YOUR_BACK_IMAGE_URL" alt="카드 뒷면">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cell" data-index="4">
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="" alt="플레이어 마크">
+          </div>
+          <div class="flip-card-back">
+            <img src="YOUR_BACK_IMAGE_URL" alt="카드 뒷면">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cell" data-index="5">
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="" alt="플레이어 마크">
+          </div>
+          <div class="flip-card-back">
+            <img src="YOUR_BACK_IMAGE_URL" alt="카드 뒷면">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cell" data-index="6">
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="" alt="플레이어 마크">
+          </div>
+          <div class="flip-card-back">
+            <img src="YOUR_BACK_IMAGE_URL" alt="카드 뒷면">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cell" data-index="7">
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="" alt="플레이어 마크">
+          </div>
+          <div class="flip-card-back">
+            <img src="YOUR_BACK_IMAGE_URL" alt="카드 뒷면">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cell" data-index="8">
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="" alt="플레이어 마크">
+          </div>
+          <div class="flip-card-back">
+            <img src="YOUR_BACK_IMAGE_URL" alt="카드 뒷면">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button id="reset">게임 재시작</button>
+
+  <script>
+    // 게임 관련 변수들
+    const statusDisplay = document.getElementById('status');
+    const resetButton = document.getElementById('reset');
+    let currentPlayer = 'X';
+    let gameActive = true;
+    // 9칸의 상태를 나타내는 배열 (빈 문자열: 미선택)
+    let gameState = ["", "", "", "", "", "", "", "", ""];
+
+    // 이미지 URL placeholders (추후 사용하실 링크로 변경)
+    const backImageURL = "YOUR_BACK_IMAGE_URL"; // 카드 뒷면 이미지
+    const xImageURL = "YOUR_X_IMAGE_URL";       // X 플레이어 이미지
+    const oImageURL = "YOUR_O_IMAGE_URL";       // O 플레이어 이미지
+
+    // 승리 조건 배열
+    const winningConditions = [
+      [0,1,2],
+      [3,4,5],
+      [6,7,8],
+      [0,3,6],
+      [1,4,7],
+      [2,5,8],
+      [0,4,8],
+      [2,4,6]
+    ];
+
+    // 셀 클릭 이벤트 처리 함수
+    function handleCellClick(e) {
+      const cell = e.currentTarget;
+      const index = cell.getAttribute('data-index');
+
+      // 이미 선택된 칸이거나 게임 종료 시 무시
+      if (gameState[index] !== "" || !gameActive) return;
+
+      // 현재 플레이어의 마크 기록
+      gameState[index] = currentPlayer;
+
+      // 셀에 'flipped' 클래스를 추가해 카드 뒤집기 효과 적용
+      cell.classList.add('flipped');
+
+      // 해당 셀의 앞면 이미지 업데이트 (플레이어에 따라)
+      const frontImg = cell.querySelector('.flip-card-front img');
+      if (currentPlayer === 'X') {
+        frontImg.src = xImageURL;
+        frontImg.alt = "X";
+      } else {
+        frontImg.src = oImageURL;
+        frontImg.alt = "O";
+      }
+
+      // 승리 여부 체크
+      if (checkWin()) {
+        statusDisplay.textContent = `플레이어 ${currentPlayer} 승리!`;
+        gameActive = false;
+        return;
+      }
+
+      // 모든 칸이 채워졌다면 무승부
+      if (gameState.every(cell => cell !== "")) {
+        statusDisplay.textContent = "무승부!";
+        gameActive = false;
+        return;
+      }
+
+      // 플레이어 교체
+      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+      statusDisplay.textContent = `현재 플레이어: ${currentPlayer}`;
+    }
+
+    // 승리 조건 체크 함수
+    function checkWin() {
+      for (let condition of winningConditions) {
+        const [a, b, c] = condition;
+        if (gameState[a] && gameState[a] === gameState[b] && gameState[a] === gameState[c]) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    // 게임 초기화 함수
+    function resetGame() {
+      currentPlayer = 'X';
+      gameActive = true;
+      gameState = ["", "", "", "", "", "", "", "", ""];
+      statusDisplay.textContent = `현재 플레이어: ${currentPlayer}`;
+      document.querySelectorAll('.cell').forEach(cell => {
+        cell.classList.remove('flipped');
+        const frontImg = cell.querySelector('.flip-card-front img');
+        frontImg.src = "";
+        frontImg.alt = "플레이어 마크";
+      });
+    }
+
+    // 각 셀에 클릭 이벤트 리스너 등록
+    document.querySelectorAll('.cell').forEach(cell => {
+      cell.addEventListener('click', handleCellClick);
+    });
+
+    // 리셋 버튼에 클릭 이벤트 리스너 등록
+    resetButton.addEventListener('click', resetGame);
+  </script>
+</body>
+</html>
